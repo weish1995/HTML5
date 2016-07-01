@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>video</title>
+	</head>
+	<body>
+		<video id="video" loop="loop" controls="controls" style="width: 400px; height: 300px">
+			<source src="E:\优酷\转格式\敢死队2.mp4" type="video/ogg">
+			<source src="E:\优酷\转格式\敢死队2.mp4" type="video/mp4">
+			你的浏览器不支持此属性
+		</video>
+
+		<script>
+			var btnStart = document.getElementById('btnStart'),
+				video = document.getElementById('video');
+
+			/*
+			*开始播放与暂停播放
+			*/
+			var started = function (){
+				if (video.paused){
+					video.play();
+				} else {
+					video.pause();
+				}
+			}
+
+			video.onclick = started;
+
+			/*
+			*全屏显示
+			*/
+			var fullScreen = function (){
+				if (this.requestFullScreen){
+					this.requestFullScreen();
+				}
+				if (this.webkitRequestFullScreen){
+					this.webkitRequestFullScreen();
+				}
+				if (this.mozRequestFullScreen){
+					this.mozRequestFullScreen();
+				}
+				if (this.msRequestFullScreen){
+					this.msRequestFullScreen();
+				}
+			};
+
+			/*
+			*退出全屏
+			*/
+			var exitFull = function (){
+				if (document.exitFullScreen){
+					document.exitFullScreen();
+				}
+				if (document.webkitCancelFullScreen){
+					document.webkitCancelFullScreen();
+				}
+				if (document.mozCancelFullScreen){
+					document.mozCancelFullScreen();
+				}
+				if (document.msCancelFullScreen){
+					document.msCancelFullScreen();
+				}
+			};
+
+			/*
+			*检测是否处于全屏状态
+			*/
+			var checkFullScreen = function (){
+				return document.fullscreen ||
+			           document.webkitIsFullScreen ||
+			           document.mozFullScreen || 
+			           false;
+			};
+
+			/*
+			*双击全屏/退出全屏
+			*/
+			video.ondblclick = function (){
+				if (checkFullScreen()){
+					exitFull();
+				} else {
+					fullScreen.call(video);
+				}
+			};
+
+			document.onkeydown = function (){
+				var e = event || document.event || arguments[0],
+					interval = 5;	//时间间隔
+
+				//空格键
+				if (e.keyCode == 32) {
+					started();
+				}
+
+				//上键  音量+
+				if (e.keyCode == 38) {
+					video.volume = video.volume <= 0.9 ? video.volume + 0.1 : 1;
+				}
+
+				//下键  音量-
+				if (e.keyCode == 40) {
+					video.volume = video.volume >= 0.1 ? video.volume - 0.1 : 0;
+				}
+				//左键 快退-
+				if (e.keyCode == 37){
+					if (video.currentTime >= interval){
+						video.currentTime -= interval;
+					} else {
+						video.currentTime = 0;
+						if (!video.paused){
+							video.pause();
+						}
+					}
+				}
+
+				//右键 快进+
+				if (e.keyCode == 39){
+					if (video.currentTime <= video.duration - interval){
+						video.currentTime += interval;
+					} else {
+						video.currentTime = video.duration;
+						if (!video.paused){
+							video.pause();
+						}
+					}
+				}
+			};
+		</script>
+	</body>
+</html>

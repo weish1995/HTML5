@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>audio</title>
+	</head>
+	<body>
+		<audio controls="controls" id="audio">
+			<source src="E:\音乐\林俊杰 - 她说.mp3" type="audio/mpeg">
+			<source src="E:\音乐\林俊杰 - 她说.ogg" type="audio/ogg">
+			浏览器不支持audio
+		</audio>
+
+		<script>
+			var audio = document.getElementById('audio');
+
+			document.onkeydown = function (){
+				var e = event || window.event || arugments[0],
+				interval = 4;	//时间间隔
+
+				//空格 播放/暂停
+				if (e.keyCode == 32){
+					if (audio.paused){
+						audio.play();
+					} else {
+						audio.pause();
+					}
+				}
+
+				//上下按键 调节音量
+				if (e.keyCode == 38){
+					audio.volume = audio.volume <= 0.9 ? audio.volume + 0.1 : 1;
+				}
+
+				if (e.keyCode == 40){
+					audio.volume = audio.volume >= 0.1 ? audio.volume - 0.1 : 0;
+				}
+
+				//左右按键 前进/后退
+				if (e.keyCode == 37){
+					if (audio.currentTime >= interval){
+						audio.currentTime -= interval;
+					} else {
+						audio.currentTime = 0;
+						audio.pause();
+					}
+				}
+
+				if (e.keyCode == 39){
+					if (audio.currentTime <= audio.duration - interval){
+						audio.currentTime += interval;
+					} else {
+						audio.currentTime = audio.duration;
+						audio.pause();
+					}
+				}
+			};
+		</script>
+	</body>
+</html>
