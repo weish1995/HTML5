@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title></title>
+		<style>
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			.divDrag{
+				width: 250px;
+				height: 200px;
+				text-align: center;
+				padding: 20px;
+				float: left;
+				margin: 20px;
+				box-shadow:0 0 4px 2px #ccc;
+			}
+			.imgDrag{
+				max-width: 100px;
+				max-height: 100px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="divDrag">
+			<img class="imgDrag" id="img1" src="sy-08.png" draggable="true" />
+			<img class="imgDrag" id="img2" src="sy-08.png" draggable="true" />
+			<img class="imgDrag" id="img3" src="sy-08.png" draggable="true" />
+			<img class="imgDrag" id="img4" src="sy-08.png" draggable="true" />
+			<img class="imgDrag" id="img5" src="sy-08.png" draggable="true" />
+			<img class="imgDrag" id="img6" src="sy-08.png" draggable="true" />
+			<img class="imgDrag" id="img7" src="sy-08.png" draggable="true" />
+		</div>
+		<div class="divDrag"></div>
+		<div class="divDrag"></div>
+		<div class="divDrag"></div>
+		<div class="divDrag"></div>
+		<div class="divDrag"></div>
+		<div class="divDrag"></div>
+		<div class="divDrag"></div>
+		<div class="divDrag"></div>
+		<div class="divDrag"></div>
+		<div class="divDrag"></div>
+		<div class="divDrag"></div>
+		<script>
+			var imgDrags = document.getElementsByClassName('imgDrag'),
+				divDrags = document.getElementsByClassName('divDrag');
+
+			for (var j = 0; j < imgDrags.length; j++){
+				imgDrags[j].ondragstart = function (event){
+					event.dataTransfer.setData('text', event.target.id);
+				};
+			}
+
+			for (var i = 0; i < divDrags.length; i++){
+				divDrags[i].ondragover = function (event){
+					event.preventDefault();
+				};
+				divDrags[i].ondrop = function (event){
+					event.preventDefault();
+					var data = event.dataTransfer.getData('text');
+					event.target.appendChild(document.getElementById(data));
+				};
+			}
+		</script>
+	</body>
+</html>
